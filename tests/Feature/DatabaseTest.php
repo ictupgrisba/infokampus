@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
-class DatabaseTableTest extends TestCase
+class DatabaseTest extends TestCase
 {
     public function testGetConnection()
     {

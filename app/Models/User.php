@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Model
 {
@@ -11,11 +13,22 @@ class User extends Model
     protected $table = 'users';
     protected $primaryKey = 'id';
     protected $keyType = 'uuid';
-    public $incrementing = false;
+    protected $fillable = [
+        "username", "role", "password"
+    ];
+    public function toModel(
+        string $username,
+        string $role,
+        string $password): void {
 
-    public function __construct(
-        public string $username,
-        public string $role,
-        public string $password,
-    ){}
+        $this->username = $username;
+        $this->role = $role;
+        $this->password = $password;
+    }
+    /*function contacts(): HasMany
+    {
+        return $this->hasMany(
+            Contact::class, "user_id", "id"
+        );
+    }*/
 }
