@@ -3,7 +3,7 @@
 namespace App\Services;
 
 
-use App\Domain\User;
+use App\Models\User;
 use App\Http\Requests\UserRegisterRequest;
 
 interface IUserService

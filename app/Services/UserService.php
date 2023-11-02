@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
-use App\Domain\User;
+use App\Exceptions\FailedResponseException;
+use App\Models\User;
 use App\Http\Requests\UserRegisterRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Log;
 
 class UserService implements IUserService
 {
@@ -16,20 +18,18 @@ class UserService implements IUserService
     }
     function register(UserRegisterRequest $request): User
     {
-        $user = new User(
-            username: $request['username'],
-            role: $request['role'],
-            password: $request['password']
-        );
+        $validated = $request->validated();
+        $user = new User($validated);
         $username = $user->username;
-        if ($this->userRepository->isUserExist($username)){
-            $error = [
-                "errors" => [
-                    "username" => ["Username $username already registered."]
-                ]
-            ];
-            throw new HttpResponseException(response($error, 400));
-        }
-        return $user;
+        Log::debug("UserService > user > ". json_encode($user));
+        if ($this->userRepository->isUserExist($username)) throw new FailedResponseException(
+            "username|$username already registered.", 400
+        );
+        $response = $this->userRepository->save($user);
+        if (is_null($response)) throw new FailedResponseException(
+            "server|An error occurred.", 500
+        );
+        Log::debug("UserService > save > ". json_encode($response));
+        return $response;
     }
 }

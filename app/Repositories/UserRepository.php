@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class UserRepository implements IUserRepository
 {
-    function save(User $request): User
+    function save(User $request): ?User
     {
         $user = new User();
         $user->toModel(
@@ -16,13 +16,16 @@ class UserRepository implements IUserRepository
             role: $request->role,
             password: $request->password
         );
-        $user->save();
+        $savedUser = $user->save();
+        if (!$savedUser) return null;
+
         return $user;
     }
     function destroyAll(): void
     {
         Log::info("UserRepository > destroyAll");
         DB::table('users')->truncate();
+        // DB::delete('DELETE FROM users');
     }
 
     function isUserExist(string $username): bool

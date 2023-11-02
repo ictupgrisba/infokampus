@@ -23,7 +23,7 @@ class User extends Model
 
         $this->username = $username;
         $this->role = $role;
-        $this->password = $password;
+        $this->password = Hash::make($password);
     }
     /*function contacts(): HasMany
     {

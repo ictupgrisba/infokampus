@@ -14,7 +14,7 @@ class UserRegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return true; // everyone
     }
 
     /**
@@ -25,9 +25,15 @@ class UserRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "username" => ["required", "max:100"],
-            "role" => ["required", "max:25"],
-            "password" => ["required", "max:100"],
+            "username" => [
+                "required", "max:100"
+            ],
+            "role" => [
+                "required", "max:25"
+            ],
+            "password" => [
+                "required", "max:100"
+            ],
         ];
     }
     protected function failedValidation(Validator $validator)

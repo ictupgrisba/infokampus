@@ -8,13 +8,6 @@ use Tests\TestCase;
 
 class UserServiceTest extends TestCase
 {
-    private IUserService $userService;
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->userService = $this->app->make(IUserService::class);
-    }
-
     public function testRegisterSuccess()
     {
         $request = new UserRegisterRequest([

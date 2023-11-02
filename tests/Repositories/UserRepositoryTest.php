@@ -8,13 +8,6 @@ use Tests\TestCase;
 
 class UserRepositoryTest extends TestCase
 {
-    private IUserRepository $userRepository;
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->userRepository = $this->app->make(IUserRepository::class);
-        $this->userRepository->destroyAll();
-    }
     public function testSaveUserSuccess()
     {
         $request = new User();
@@ -23,5 +16,7 @@ class UserRepositoryTest extends TestCase
         );
         $user = $this->userRepository->save($request);
         self::assertSame($user->username, $request->username);
+        self::assertSame($user->role, $request->role);
+        self::assertSame($user->password, $request->password);
     }
 }
