@@ -4,34 +4,57 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class UserRepository implements IUserRepository
 {
-    function save(User $request): ?User
+    function add(User $request): ?User
     {
-        $user = new User();
-        $user->toModel(
+        $request->toModel(
             username: $request->username,
             role: $request->role,
-            password: $request->password
+            password: Hash::make($request->password)
         );
-        $savedUser = $user->save();
+
+        $savedUser = $request->save();
         if (!$savedUser) return null;
 
-        return $user;
+        return $request;
     }
-    function destroyAll(): void
+    function removeAll(): void
     {
         Log::info("UserRepository > destroyAll");
         DB::table('users')->truncate();
         // DB::delete('DELETE FROM users');
     }
-
-    function isUserExist(string $username): bool
+    function find(string $username): ?User
     {
         return User::query()
-                ->where('username', $username)
-                ->count() > 0;
+            ->where('username', $username)
+            ->get()
+            ->first();
+    }
+    function isUserExist(string $username): bool
+    {
+        return !is_null($this->find($username));
+    }
+
+    function update(string $userId, User $request): ?User
+    {
+        $user = User::query()->find($userId);
+        if (is_null($user)) return null;
+
+        $user->username = $request->username;
+        $user->role = $request->role;
+        $user->token = $request->token;
+        $user->password = $request->password;
+
+        // Log::debug("UserRepository > ". json_encode($user));
+
+        $savedUser = $user->save();
+        if (!$savedUser) return null;
+
+        return $user->get()->first();
     }
 }

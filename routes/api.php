@@ -17,4 +17,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 */
 
-Route::post('/users', [\App\Http\Controllers\UserController::class, 'register']);
+Route::middleware(\App\Http\Middleware\OnlyMemberMiddleware::class)->group(function (){
+    Route::controller(\App\Http\Controllers\UserController::class)->group(function (){
+        Route::post('/users/login', 'login');
+        Route::post('/users', 'register');
+    });
+    Route::controller(\App\Http\Controllers\EventPostController::class)->group(function (){
+        Route::get('/posts', 'list');
+    });
+});

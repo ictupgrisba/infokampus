@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helper;
+use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Services\IUserService;
@@ -21,12 +23,21 @@ class UserController extends Controller implements IUserController
             return new UserResource($user);
 
         } catch (\Throwable $throwable) {
-            $errors = explode("|", $throwable->getMessage(), 2);
-            $response = response(["errors" => [
-                $errors[0] => $errors[1]
-            ]],
-                $throwable->getCode()
-            );
+            $response = Helper::getResponse($throwable);
+
+            throw new HttpResponseException($response);
+        }
+    }
+
+    function login(UserLoginRequest $request): UserResource
+    {
+        try {
+            $user = $this->userService->login($request);
+            return new UserResource($user);
+
+        } catch (\Throwable $throwable) {
+            $response = Helper::getResponse($throwable);
+
             throw new HttpResponseException($response);
         }
     }

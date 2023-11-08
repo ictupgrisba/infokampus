@@ -6,7 +6,9 @@ use App\Models\User;
 
 interface IUserRepository
 {
-    function save(User $request): ?User;
+    function add(User $request): ?User;
+    function update(string $userId, User $request): ?User;
     function isUserExist(string $username): bool;
-    function destroyAll(): void;
+    function find(string $username): ?User;
+    function removeAll(): void;
 }

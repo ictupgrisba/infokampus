@@ -14,8 +14,8 @@ class UserControllerTest extends TestCase
     ];
     public function testRegisterSuccess()
     {
-
-        $this->post('/api/users', $this->data)
+        $this
+            ->post('/api/users', $this->data)
             ->assertStatus(201)
             ->assertJson([
                 "data" => [
@@ -32,7 +32,23 @@ class UserControllerTest extends TestCase
         $this->post('/api/users', $this->data)
             ->assertStatus(400)
             ->assertJson([
-                "errors" => []
+                "errors" => [
+                    "username" => $this->data['username']. " already registered."
+                ]
+            ]);
+    }
+
+    public function testLoginUserSuccess()
+    {
+        User::query()->create($this->data);
+
+        $this->post('/api/users/login', $this->data)
+            ->assertStatus(200)
+            ->assertJson([
+                "data" => [
+                    "username" => $this->data['username'],
+                    "role" => $this->data['role']
+                ]
             ]);
     }
 }

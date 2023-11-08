@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\EventRepository;
+use App\Repositories\IEventPostRepository;
 use App\Repositories\IUserRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -15,6 +17,9 @@ class RepositoryProvider extends ServiceProvider
     {
         $this->app->singleton(IUserRepository::class, function (){
             return new UserRepository();
+        });
+        $this->app->singleton(IEventPostRepository::class, function (){
+            return new EventRepository();
         });
     }
 
