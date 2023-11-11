@@ -6,8 +6,14 @@ export default {
         "./resources/**/*.vue",
     ],
     theme: {
-    extend: {},
-  },
+        extend: {},
+        colors: {
+            'heading': '#36443B'
+        },
+        fontFamily: {
+            'heading': ['Satisfy', 'cursive', 'sans-serif']
+        }
+    },
   plugins: [],
 }
 

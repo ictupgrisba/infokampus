@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    h1, h4{
+        @apply font-heading;
+    }
+    body{
+        @apply text-[#36443B];
+        @apply bg-[#FFFDF3];
+    }
+}
