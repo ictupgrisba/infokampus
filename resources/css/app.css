@@ -8,6 +8,12 @@
     h1, h4{
         @apply font-heading;
     }
+    td{
+        @apply px-1.5
+    }
+    th{
+        @apply p-2.5
+    }
     body{
         @apply text-[#36443B];
         @apply bg-[#FFFDF3];

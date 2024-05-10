@@ -8,7 +8,9 @@ export default {
     theme: {
         extend: {},
         colors: {
-            'heading': '#36443B'
+            'heading': '#36443B',
+            'black': '#000000',
+            'white': '#FFFFFF'
         },
         fontFamily: {
             'heading': ['Satisfy', 'cursive', 'sans-serif']
