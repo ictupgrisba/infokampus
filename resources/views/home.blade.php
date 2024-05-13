@@ -205,7 +205,7 @@ $dataOtherInfo = [
     <section>
         <div class="max-w-screen-lg mx-auto space-y-4">
             <h1 class="text-4xl font-bold">Rundown Acara</h1>
-            <h1 class="text-2xl font-bold">Wisuda Ke-5/68 & Dies Natalis Ke-3</h1>
+            <h1 class="text-2xl font-bold">Wisuda Ke-5/68</h1>
             <table class="table-auto">
                 @for($i = 0; $i < count($dataEvent); $i++)
                     <tr>
